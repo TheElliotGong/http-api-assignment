@@ -5,7 +5,70 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
+    const handleResponse = async (response, type) => {
+      response.text().then(text => {
+      const content = document.querySelector("#content");
+      
+      switch(response.status) {
+        case 200: 
+          content.innerHTML = `<b>Success</b>`;
+          break;
+        case 400: 
+          content.innerHTML = `<b>Bad Request</b>`;
+          break;
+        case 401:
+          content.innerHTML = `<b>Unauthorized</b>`;
+          break;
+        case 403:
+          content.innerHTML = '<b>Forbidden</b>';
+          break;
+        case 404:
+          content.innerHTML = `<b>Resource Not Found</b>`;
+          break;
+        case 500:
+          content.innerHTML = `<b>Internal Server Error</b>`;
+          break;
+        case 501:
+          content.innerHTML = `<b>Not Implemented</b>`;
+        default: 
+          content.innerHTML = `<b>Resource Not Found</b>`;
+          break;
+      }
+      //Set up the html content after 
+          
+      
+      let string;
+      if(type === 'application/json')
+      {
+        string = JSON.parse(text);
+      }
+      else if(type === 'text/xml')
+      {
+        string = new window.DOMParser().parseFromString(text, 'text/xml');
+      }
+      content.innerHTML += `<p>Message:${string.message}</p>`;
+    });
+    };
 
+    const requestUpdate = async () => {
+      
+      const url = top.querySelector("#page").value;
+      const type = top.querySelector("#type").value;
+      console.log(pageValue + " " + typeValue);
+
+      const response = await fetch(url, {
+        headers: {'Accept': type}
+      });
+      handleResponse(response, type);
+    };
+
+    const init = () => {
+      const userForm = document.querySelector("#send");
+      userForm.addEventListener("click", event => {
+        requestUpdate();
+        return false;
+      });
+    }
   </script>
 </head>
 <body>

@@ -1,0 +1,18 @@
+{
+  "name": "http-api-assignment",
+  "version": "1.0.0",
+  "description": "Creating our own HTTP api",
+  "main": "./src/server.js",
+  "scripts": {
+    "test": "echo \"No errors. Test Complete.\"",
+    "pretest": "eslint ./src --fix",
+    "start": "node ./src/server.js"
+  },
+  "author": "Elliot Gong",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.49.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.28.1"
+  }
+}
