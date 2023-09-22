@@ -5,7 +5,7 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
-    const handleResponse = async (response, type) => {
+    const handleResponse = async (response) => {
       response.text().then(text => {
       const content = document.querySelector("#content");
       
@@ -38,37 +38,48 @@
           
       
       let string;
+      const type = response.headers.get('Content-Type');
       if(type === 'application/json')
       {
         string = JSON.parse(text);
+        content.innerHTML += `<p>Message: ${string.message}`;
+        if(string.id || string.id !== undefined)
+        {
+          content.innerHTML += `id: ${string.id}</p>`;
+        }
       }
       else if(type === 'text/xml')
       {
-        string = new window.DOMParser().parseFromString(text, 'text/xml');
+        string = new window.DOMParser().parseFromString(text, type);
+        content.innerHTML += `<p><response><Message>${string.querySelector('message').textContent}</Message>`;
+        if(string.querySelector('id').textContent)
+        {
+          content.innerHTML += `<id>${string.querySelector('id').textContent}</id></response></p>`;
+        }
       }
-      content.innerHTML += `<p>Message:${string.message}</p>`;
+      
     });
     };
 
     const requestUpdate = async () => {
       
-      const url = top.querySelector("#page").value;
-      const type = top.querySelector("#type").value;
-      console.log(pageValue + " " + typeValue);
-
+      const url = document.querySelector("#page").value;
+      const type = document.querySelector("#type").value;
       const response = await fetch(url, {
         headers: {'Accept': type}
       });
-      handleResponse(response, type);
+      handleResponse(response);
     };
 
     const init = () => {
-      const userForm = document.querySelector("#send");
+      const userForm = document.getElementById('send');
       userForm.addEventListener("click", event => {
+        event.preventDefault();
         requestUpdate();
         return false;
       });
-    }
+    };
+    window.onload = init;
   </script>
 </head>
 <body>

@@ -15,14 +15,9 @@ const getCSS = (request, response) => {
   response.end();
 };
 
-const respondHTML = (request, response, message) => {
-  response.writeHead(200, { 'Content-Type': 'text/html' });
-  response.write(message);
-  response.end();
-};
 
 module.exports = {
   getIndex,
   getCSS,
-  respondHTML,
+
 };

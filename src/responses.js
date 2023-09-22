@@ -8,10 +8,10 @@ const respond = (request, response, status, content, type) => {
 const success = (request, response, type) => {
   let message = {message: "This is a successful response."};
   if (type === 'text/xml') {
-    message = '<response>';
-    message += `<message>${message.message}</message></response>`;
-    console.log(JSON.stringify(message));
-    return respond(request, response, 200, JSON.stringify(message), type );
+    let xmlMessage = '<response>';
+    xmlMessage += `<message>${message.message}</message></response>`;
+    console.log(xmlMessage);
+    return respond(request, response, 200, xmlMessage, type );
   } 
   console.log(JSON.stringify(message));
   return respond(request, response, 200, JSON.stringify(message), 'application/json');
@@ -22,11 +22,11 @@ const notFound = (request, response, type) => {
     id: "notFound"
   };
   if (type === 'text/xml') {
-    message = '<response>';
-    message += `<message>${message.message}</message>`;
-    message += `<id>${message.id}</id></response>`;
-    console.log(JSON.stringify(message));
-    return respond(request, response, 404, JSON.stringify(message), type );
+    let xmlMessage = '<response>';
+    xmlMessage += `<message>${message.message}</message>`;
+    xmlMessage += `<id>${message.id}</id></response>`;
+    console.log(xmlMessage);
+    return respond(request, response, 404, xmlMessage, type );
   } 
   console.log(JSON.stringify(message));
   return respond(request, response, 404, JSON.stringify(message), 'application/json');
@@ -46,10 +46,9 @@ const unauthorized = (request, response, type, params) => {
   {
     let xmlMessage = '<response>';
     xmlMessage += `<message>${message.message}</message>`;
-    xmlMmessage += `<id>${message.message}</id></response>`;
-    message = xmlMessage;
-    console.log(JSON.stringify(xmlMessage));
-    return respond(request, response, status, JSON.stringify(message), type);
+    xmlMessage += `<id>${message.id}</id></response>`;
+    console.log(xmlMessage);
+    return respond(request, response, status, xmlMessage, type);
   } 
   //Default output
   console.log(JSON.stringify(message));
@@ -72,10 +71,9 @@ const badRequest = (request, response, type, params ) =>
   {
     let xmlMessage = '<response>';
     xmlMessage += `<message>${message.message}</message>`;
-    xmlMmessage += `<id>${message.message}</id></response>`;
-    message = xmlMessage;
-    console.log(JSON.stringify(xmlMessage));
-    return respond(request, response, status, JSON.stringify(message), type);
+    xmlMessage += `<id>${message.id}</id></response>`;
+    console.log(xmlMessage);
+    return respond(request, response, status, xmlMessage, type);
   } 
   //Default output
   console.log(JSON.stringify(message));
@@ -90,10 +88,9 @@ const internal = (request, response, type) => {
   {
     let xmlMessage = '<response>';
     xmlMessage += `<message>${message.message}</message>`;
-    xmlMmessage += `<id>${message.message}</id></response>`;
-    message = xmlMessage;
-    console.log(JSON.stringify(xmlMessage));
-    return respond(request, response, 500, JSON.stringify(message), type);
+    xmlMessage += `<id>${message.id}</id></response>`;
+    console.log(xmlMessage);
+    return respond(request, response, 500, xmlMessage, type);
   } 
   //Default output
   console.log(JSON.stringify(message));
@@ -109,10 +106,9 @@ const notImplemented = (request, response, type) =>
   {
     let xmlMessage = '<response>';
     xmlMessage += `<message>${message.message}</message>`;
-    xmlMmessage += `<id>${message.message}</id></response>`;
-    message = xmlMessage;
-    console.log(JSON.stringify(xmlMessage));
-    return respond(request, response, 501, JSON.stringify(message), type);
+    xmlMessage += `<id>${message.id}</id></response>`;
+    console.log(xmlMessage);
+    return respond(request, response, 501, xmlMessage, type);
   } 
   //Default output
   console.log(JSON.stringify(message));
@@ -128,51 +124,50 @@ const forbidden = (request, response, type) =>
   {
     let xmlMessage = '<response>';
     xmlMessage += `<message>${message.message}</message>`;
-    xmlMmessage += `<id>${message.message}</id></response>`;
-    message = xmlMessage;
-    console.log(JSON.stringify(xmlMessage));
-    return respond(request, response, 403, JSON.stringify(message), type);
+    xmlMessage += `<id>${message.id}</id></response>`;
+    console.log(xmlMessage);
+    return respond(request, response, 403, xmlMessage, type);
   } 
   //Default output
   console.log(JSON.stringify(message));
   return respond(request, response, 403, JSON.stringify(message), "application/json");
 };
 
-const nonQueryResponse = (request, response, type, message, status) => {
-  if (type === 'text/xml') 
-  {
-    let xmlMessage = '<response>';
-    xmlMessage += `<message>${message.message}</message>`;
-    xmlMmessage += `<id>${message.message}</id></response>`;
-    console.log(JSON.stringify(xmlMessage));
-    return respond(request, response, status, JSON.stringify(xmlMessage), type);
-  } 
-  //Default output
-  console.log(JSON.stringify(message));
-  return respond(request, response, status, JSON.stringify(message), "application/json");
-}
+// const nonQueryResponse = (request, response, type, message, status) => {
+//   if (type === 'text/xml') 
+//   {
+//     let xmlMessage = '<response>';
+//     xmlMessage += `<message>${message.message}</message>`;
+//     xmlMmessage += `<id>${message.message}</id></response>`;
+//     console.log(xmlMessage);
+//     return respond(request, response, status, xmlMessage, type);
+//   } 
+//   //Default output
+//   console.log(JSON.stringify(message));
+//   return respond(request, response, status, JSON.stringify(message), "application/json");
+// }
 
-const queryResponse = (request, response, type, validMessage, invalidMessage, params, statuses) => {
-  let status = statuses.validStatus;
-  let message = validMessage;
-  if(!params.valid || params.valid !== 'true')
-  {
-    message = invalidMessage;
-    status = statuses.invalidStatus;
-  }
-  if (type === 'text/xml') 
-  {
-    let xmlMessage = '<response>';
-    xmlMessage += `<message>${message.message}</message>`;
-    xmlMmessage += `<id>${message.message}</id></response>`;
-    message = xmlMessage;
-    console.log(JSON.stringify(xmlMessage));
-    return respond(request, response, status, JSON.stringify(message), type);
-  } 
-  //Default output
-  console.log(JSON.stringify(message));
-  return respond(request, response, status, JSON.stringify(message), "application/json");
-};
+// const queryResponse = (request, response, type, validMessage, invalidMessage, params, statuses) => {
+//   let status = statuses.validStatus;
+//   let message = validMessage;
+//   if(!params.valid || params.valid !== 'true')
+//   {
+//     message = invalidMessage;
+//     status = statuses.invalidStatus;
+//   }
+//   if (type === 'text/xml') 
+//   {
+//     let xmlMessage = '<response>';
+//     xmlMessage += `<message>${message.message}</message>`;
+//     xmlMmessage += `<id>${message.message}</id></response>`;
+
+//     console.log(JSON.stringify(xmlMessage));
+//     return respond(request, response, status, xmlMessage, type);
+//   } 
+//   //Default output
+//   console.log(JSON.stringify(message));
+//   return respond(request, response, status, JSON.stringify(message), "application/json");
+// };
 module.exports = { 
   respond, 
   notFound, 

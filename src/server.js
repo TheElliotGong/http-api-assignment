@@ -8,29 +8,11 @@ const responseHandler = require('./responses.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
-// const urlStruct = {
-  
-//     '/': htmlHandler.getIndex,
-//     '/style.css': htmlHandler.getCSS,
-//     '/unauthorized': htmlHandler.respondHTML,
-//     '/badRequest': 'sa',
-//     '/badRequest?valid=true': 'adaf',
-//       notFound: responseHandler.notFound,
-   
-// };
-
 const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
   const params = query.parse(parsedUrl.query);
-  const acceptedType = request.headers.accept.split(',');
-  // if(!urlStruct[request.method])
-  // {
-  //     return urlStruct.HEAD.notFound(request, response);
-  // }
-  // if(urlStruct[request.method][parsedUrl.pathname])
-  // {
-  //     return urlStruct[request.method][parsedUrl.pathname](request, response);
-  // }
+  const acceptedType = request.headers.accept;
+  console.log(acceptedType);
   switch (request.url) {
     case '/':
       htmlHandler.getIndex(request, response);
