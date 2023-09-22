@@ -43,6 +43,7 @@
       {
         string = JSON.parse(text);
         content.innerHTML += `<p>Message: ${string.message}`;
+        //Check if json message has id property
         if(string.id || string.id !== undefined)
         {
           content.innerHTML += `id: ${string.id}</p>`;
@@ -51,11 +52,16 @@
       else if(type === 'text/xml')
       {
         string = new window.DOMParser().parseFromString(text, type);
-        content.innerHTML += `<p><response><Message>${string.querySelector('message').textContent}</Message>`;
+        console.log(string);
+        let p = document.createElement('p');
+        p.textContent += `<response><message>${string.querySelector('message').textContent}</message>`;
+        //Check if xml has id tags
         if(string.querySelector('id').textContent)
         {
-          content.innerHTML += `<id>${string.querySelector('id').textContent}</id></response></p>`;
+          p.textContent += `<id>${string.querySelector('id').textContent}</id>`;
         }
+        p.textContent += '</response>';
+        content.appendChild(p);
       }
       
     });
