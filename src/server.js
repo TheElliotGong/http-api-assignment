@@ -2,7 +2,6 @@ const http = require('http');
 const url = require('url');
 const query = require('querystring');
 const htmlHandler = require('./htmlResponses.js');
-const textHandler = require('./textResponses.js');
 const responseHandler = require('./responses.js');
 // const jsonHandler = require('./jsonResponses.js');
 

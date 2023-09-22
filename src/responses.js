@@ -99,7 +99,8 @@ const internal = (request, response, type) => {
 const notImplemented = (request, response, type) =>
 {
   let message = {
-    message: 'A get request for this page has not been implemented yet. Check again later for updated content.',
+    message: `A get request for this page has not been implemented yet. 
+              Check again later for updated content.`,
     id: "notImplemented"
   }
   if (type === 'text/xml') 
@@ -132,42 +133,44 @@ const forbidden = (request, response, type) =>
   console.log(JSON.stringify(message));
   return respond(request, response, 403, JSON.stringify(message), "application/json");
 };
+/*
+const nonQueryResponse = (request, response, type, message, status) => {
+  if (type === 'text/xml') 
+  {
+    let xmlMessage = '<response>';
+    xmlMessage += `<message>${message.message}</message>`;
+    xmlMmessage += `<id>${message.message}</id></response>`;
+    console.log(xmlMessage);
+    return respond(request, response, status, xmlMessage, type);
+  } 
+  //Default output
+  console.log(JSON.stringify(message));
+  return respond(request, response, status, JSON.stringify(message), "application/json");
+}
 
-// const nonQueryResponse = (request, response, type, message, status) => {
-//   if (type === 'text/xml') 
-//   {
-//     let xmlMessage = '<response>';
-//     xmlMessage += `<message>${message.message}</message>`;
-//     xmlMmessage += `<id>${message.message}</id></response>`;
-//     console.log(xmlMessage);
-//     return respond(request, response, status, xmlMessage, type);
-//   } 
-//   //Default output
-//   console.log(JSON.stringify(message));
-//   return respond(request, response, status, JSON.stringify(message), "application/json");
-// }
+const queryResponse = (request, response, type, validMessage, invalidMessage, 
+  params, statuses) => {
+  let status = statuses.validStatus;
+  let message = validMessage;
+  if(!params.valid || params.valid !== 'true')
+  {
+    message = invalidMessage;
+    status = statuses.invalidStatus;
+  }
+  if (type === 'text/xml') 
+  {
+    let xmlMessage = '<response>';
+    xmlMessage += `<message>${message.message}</message>`;
+    xmlMmessage += `<id>${message.message}</id></response>`;
 
-// const queryResponse = (request, response, type, validMessage, invalidMessage, params, statuses) => {
-//   let status = statuses.validStatus;
-//   let message = validMessage;
-//   if(!params.valid || params.valid !== 'true')
-//   {
-//     message = invalidMessage;
-//     status = statuses.invalidStatus;
-//   }
-//   if (type === 'text/xml') 
-//   {
-//     let xmlMessage = '<response>';
-//     xmlMessage += `<message>${message.message}</message>`;
-//     xmlMmessage += `<id>${message.message}</id></response>`;
-
-//     console.log(JSON.stringify(xmlMessage));
-//     return respond(request, response, status, xmlMessage, type);
-//   } 
-//   //Default output
-//   console.log(JSON.stringify(message));
-//   return respond(request, response, status, JSON.stringify(message), "application/json");
-// };
+    console.log(JSON.stringify(xmlMessage));
+    return respond(request, response, status, xmlMessage, type);
+  } 
+  //Default output
+  console.log(JSON.stringify(message));
+  return respond(request, response, status, JSON.stringify(message),
+   "application/json");
+};*/
 module.exports = { 
   respond, 
   notFound, 
