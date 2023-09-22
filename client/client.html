@@ -43,7 +43,7 @@
       {
         string = JSON.parse(text);
         content.innerHTML += `<p>Message: ${string.message}`;
-        //Check if json message has id property
+        //Check if json has id property
         if(string.id || string.id !== undefined)
         {
           content.innerHTML += `id: ${string.id}</p>`;
@@ -56,7 +56,7 @@
         let p = document.createElement('p');
         p.textContent += `<response><message>${string.querySelector('message').textContent}</message>`;
         //Check if xml has id tags
-        if(string.querySelector('id').textContent)
+        if(string.querySelector('id'))
         {
           p.textContent += `<id>${string.querySelector('id').textContent}</id>`;
         }
@@ -68,7 +68,7 @@
     };
 
     const requestUpdate = async () => {
-      
+      //Send a fetch request using form data.
       const url = document.querySelector("#page").value;
       const type = document.querySelector("#type").value;
       const response = await fetch(url, {
@@ -78,6 +78,7 @@
     };
 
     const init = () => {
+      //Attach event handler to button
       const userForm = document.getElementById('send');
       userForm.addEventListener("click", event => {
         event.preventDefault();
