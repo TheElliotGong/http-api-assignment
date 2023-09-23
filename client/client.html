@@ -8,7 +8,7 @@
     const handleResponse = async (response) => {
       response.text().then(text => {
       const content = document.querySelector("#content");
-      
+      //Change title based on response
       switch(response.status) {
         case 200: 
           content.innerHTML = `<b>Success</b>`;
@@ -34,11 +34,10 @@
           content.innerHTML = `<b>Resource Not Found</b>`;
           break;
       }
-      //Set up the html content after 
-          
-      
+      //Set up the html content after         
       let string;
       const type = response.headers.get('Content-Type');
+      //Return response in json format
       if(type === 'application/json')
       {
         string = JSON.parse(text);
@@ -49,6 +48,7 @@
           content.innerHTML += `id: ${string.id}</p>`;
         }
       }
+      //Return response in xml format
       else if(type === 'text/xml')
       {
         string = new window.DOMParser().parseFromString(text, type);
@@ -60,14 +60,15 @@
           p.textContent += `<id>${string.querySelector('id').textContent}</id>`;
         }
         p.textContent += '</response>';
+        //Add html to page.
         content.appendChild(p);
       }
       
     });
     };
-
+    //Send a fetch request using form data
     const requestUpdate = async () => {
-      //Send a fetch request using form data.
+      //Use info from forms to request data.
       const url = document.querySelector("#page").value;
       const type = document.querySelector("#type").value;
       const response = await fetch(url, {
