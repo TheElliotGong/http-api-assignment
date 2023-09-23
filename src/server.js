@@ -3,7 +3,27 @@ const url = require('url');
 const query = require('querystring');
 const htmlHandler = require('./htmlResponses.js');
 const responseHandler = require('./responses.js');
-// const jsonHandler = require('./jsonResponses.js');
+
+const successMessage = {message: 'This is a successful response.'};
+const notFoundMessage = {message: 'The page you were looking for was not found.',
+id: 'notFound'};
+const forbiddenMessage = { message: 'You do not have access to this content.',
+id: 'forbidden'};
+const internalMessage = {message: 'Internal Server Error. Something went wrong.',
+id: 'internalError'};
+const notImplementedMessage = {message: `A get request for this page has not been implemented yet. 
+Check again later for updated content.`,
+id: 'notImplemented'};
+
+const badRequestValidMessage = {message: "This request has the required parameters."};
+const badRequestInvalidMessage = {message:"Missing valid query param set to true.",
+id: 'badRequest'};
+const badRequestStatuses = {validStatus: 200, invalidStatus: 400};
+
+const unauthorizedValidMessage = {message: "You have successfully viewed the content."};
+const unauthorizedInvalidMessage = {message: "Missed loggedIn query parameter set to yes.",
+id: 'unauthorized'};
+const unauthorizedStatuses = {validStatus: 200, invalidStatus: 401};
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
@@ -12,7 +32,7 @@ const onRequest = (request, response) => {
   const params = query.parse(parsedUrl.query);
   const acceptedType = request.headers.accept;
   console.log(acceptedType);
-  switch (request.url) {
+  switch (parsedUrl.pathname) {
     case '/':
       htmlHandler.getIndex(request, response);
       break;
@@ -20,34 +40,38 @@ const onRequest = (request, response) => {
       htmlHandler.getCSS(request, response);
       break;
     case '/success':
-      responseHandler.success(request, response, acceptedType);
+      responseHandler.nonQueryResponse(request, response, acceptedType, successMessage, 200)
       break;
     case '/badRequest':
-      responseHandler.badRequest(request, response, acceptedType, params)
+      responseHandler.queryResponse(request, response, acceptedType, badRequestValidMessage, 
+        badRequestInvalidMessage, params, 'valid', 'true', badRequestStatuses);
       break;
     case '/badRequest?valid=true':
-      responseHandler.badRequest(request, response, acceptedType, params);
+      responseHandler.queryResponse(request, response, acceptedType, badRequestValidMessage, 
+        badRequestInvalidMessage, params, 'valid', 'true', badRequestStatuses);
       break;
     case '/unauthorized':
-      responseHandler.unauthorized(request, response, acceptedType, params);
+      responseHandler.queryResponse(request, response, acceptedType, unauthorizedValidMessage, 
+        unauthorizedInvalidMessage, params, 'loggedIn', 'yes', unauthorizedStatuses);
       break;
     case '/unauthorized?loggedIn=yes':
-      responseHandler.unauthorized(request, response, acceptedType, params);
+      responseHandler.queryResponse(request, response, acceptedType, unauthorizedValidMessage, 
+        unauthorizedInvalidMessage, params, 'loggedIn', 'yes', unauthorizedStatuses);
       break;
     case '/notImplemented':
-      responseHandler.notImplemented(request, response, acceptedType);
+      responseHandler.nonQueryResponse(request, response, acceptedType, notImplementedMessage, 501);
       break;
     case '/forbidden':
-      responseHandler.forbidden(request, response, acceptedType);
+      responseHandler.nonQueryResponse(request, response, acceptedType, forbiddenMessage, 403);
       break;
     case '/notFound':
-      responseHandler.notFound(request, response, acceptedType);
+      responseHandler.nonQueryResponse(request, response, acceptedType, notFoundMessage, 404);
       break;
     case '/internal':
-      responseHandler.internal(request, response, acceptedType);
+      responseHandler.nonQueryResponse(request, response, acceptedType, internalMessage, 500);;
       break;
     default:
-      responseHandler.notFound(request, response, acceptedType);
+      responseHandler.nonQueryResponse(request, response, acceptedType, notFoundMessage, 404);
       break;
   }
 };

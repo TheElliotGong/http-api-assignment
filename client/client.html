@@ -52,7 +52,6 @@
       else if(type === 'text/xml')
       {
         string = new window.DOMParser().parseFromString(text, type);
-        console.log(string);
         let p = document.createElement('p');
         p.textContent += `<response><message>${string.querySelector('message').textContent}</message>`;
         //Check if xml has id tags
