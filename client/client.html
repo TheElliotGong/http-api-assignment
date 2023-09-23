@@ -31,10 +31,13 @@
           break;
         case 501:
           content.innerHTML = `<b>Not Implemented</b>`;
+          break;
         default: 
           content.innerHTML = `<b>Resource Not Found</b>`;
           break;
       }
+      //Print raw json or xml
+      console.log(text);
       //Set up the html content after         
       let string;
       const type = response.headers.get('Content-Type');
@@ -52,6 +55,7 @@
       //Return response in xml format
       else if(type === 'text/xml')
       {
+        
         string = new window.DOMParser().parseFromString(text, type);
         let p = document.createElement('p');
         p.textContent += `<response><message>${string.querySelector('message').textContent}</message>`;
