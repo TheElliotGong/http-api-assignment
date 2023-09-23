@@ -1,4 +1,8 @@
-
+/*
+Author: Elliot Gong
+Purpose: Handle server responses that will return data in either xml or json
+Date: 9/23/2023
+*/
 //Helper method to return stuff to the client.
 const respond = (request, response, status, content, type) => {
   response.writeHead(status, { 'Content-Type': type });

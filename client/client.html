@@ -5,6 +5,7 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
+    //Handle requests and responses to the server from the html page itself.
     const handleResponse = async (response) => {
       response.text().then(text => {
       const content = document.querySelector("#content");

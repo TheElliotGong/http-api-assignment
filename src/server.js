@@ -1,3 +1,9 @@
+/*
+Author: Elliot Gong
+Purpose: Handle server actions for various requests
+Date: 9/23/2023
+*/
+
 //Include other scripts and modules
 const http = require('http');
 const url = require('url');
